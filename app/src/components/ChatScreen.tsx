@@ -188,7 +188,11 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
         <Mic size={18} stroke="rgba(0,0,0,0.5)" />
       </TouchableOpacity>
       {text.trim() ? (
-        <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
+        <TouchableOpacity
+          onPress={handleSend}
+          style={styles.sendButton}
+          accessibilityLabel="Send message"
+        >
           <Send size={18} stroke="#fff" />
         </TouchableOpacity>
       ) : null}
@@ -399,11 +403,11 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   sendButton: {
-    padding: 6,
-  },
-  sendButtonText: {
-    fontSize: 20,
-    color: theme.accent,
-    fontWeight: 'bold',
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: theme.hot,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
