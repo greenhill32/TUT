@@ -6,9 +6,9 @@
   "category": "booking_disasters",
   "messages": [
     {
-      "delay_ms": 0,
+      "delay_ms": 700,
       "sender": "tracey",
-      "text": "hiya babes"
+      "text": "Hey babes"
     },
     {
       "delay_ms": 2500,
