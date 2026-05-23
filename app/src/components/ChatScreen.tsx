@@ -185,7 +185,7 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
         multiline
       />
       <TouchableOpacity style={styles.micButton}>
-        <Mic size={18} color="rgba(0,0,0,0.5)" />
+        <Mic size={18} color={theme.hot} />
       </TouchableOpacity>
       {text.trim() ? (
         <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
@@ -399,7 +399,12 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   sendButton: {
-    padding: 6,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: theme.hot,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   sendButtonText: {
     fontSize: 20,

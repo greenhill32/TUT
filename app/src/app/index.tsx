@@ -107,7 +107,7 @@ export default function HomeScreen() {
       setScenarioIndex(currentMsgIndex);
       setIsTyping(true);
 
-      // After a short delay, add Tracey's dismissal and continue
+      // Add a longer delay before Tracey replies after user input
       setTimeout(() => {
         const nextMsg = magicMike.messages[currentMsgIndex];
         if (nextMsg.text) {
@@ -129,9 +129,9 @@ export default function HomeScreen() {
             };
             setMessages((prev) => [...prev, responseMsg]);
             setIsTyping(false);
-          }, 2000);
+          }, 3200);
         }
-      }, 1500);
+      }, 2200);
     }
   };
 
