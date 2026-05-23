@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, Animated } from 'react-native';
 import { Phone, Video, Send, Plus, Mic } from 'lucide-react-native';
 import { theme, chatColors, typography } from '../lib/theme';
@@ -15,6 +15,10 @@ interface ChatScreenProps {
   onSendMessage: (text: string) => void;
   isTyping?: boolean;
 }
+
+type ChatListItem =
+  | (Message & { isLastOfRun: boolean; type?: 'message' })
+  | { id: 'typing-indicator'; type: 'typing' };
 
 const StatusBar = ({ time = '14:07' }) => (
   <View style={styles.statusBar}>
@@ -98,11 +102,12 @@ const MessageBubble = ({ message, isLastOfRun }: { message: Message; isLastOfRun
 };
 
 const AnimatedDot = ({ delay }: { delay: number }) => {
-  const animValue = useRef(new Animated.Value(0)).current;
+  const animValue = useMemo(() => new Animated.Value(0), []);
 
   useEffect(() => {
-    Animated.loop(
+    const animation = Animated.loop(
       Animated.sequence([
+        Animated.delay(delay),
         Animated.timing(animValue, {
           toValue: 1,
           duration: 300,
@@ -114,8 +119,12 @@ const AnimatedDot = ({ delay }: { delay: number }) => {
           useNativeDriver: true,
         }),
       ])
-    ).start();
-  }, [animValue]);
+    );
+
+    animation.start();
+
+    return () => animation.stop();
+  }, [animValue, delay]);
 
   const scale = animValue.interpolate({
     inputRange: [0, 1],
@@ -134,7 +143,6 @@ const AnimatedDot = ({ delay }: { delay: number }) => {
         {
           transform: [{ scale }],
           opacity,
-          marginLeft: delay * 150,
         },
       ]}
     />
@@ -146,7 +154,7 @@ const TypingBubble = () => (
     <View style={[styles.bubble, styles.traceyBubble, { borderBottomLeftRadius: 5 }]}>
       <View style={styles.typingIndicator}>
         {[0, 1, 2].map((i) => (
-          <AnimatedDot key={i} delay={i} />
+          <AnimatedDot key={i} delay={i * 150} />
         ))}
       </View>
     </View>
@@ -193,18 +201,28 @@ export const ChatScreen = ({ messages, onSendMessage, isTyping = false }: ChatSc
 
   const displayMessages = messages.map((msg, idx, arr) => ({
     ...msg,
-    isLastOfRun: idx === arr.length - 1 || arr[idx + 1]?.sender !== msg.sender,
+    isLastOfRun:
+      (idx === arr.length - 1 && !isTyping) ||
+      (idx < arr.length - 1 && arr[idx + 1]?.sender !== msg.sender),
   }));
 
-  const renderItem = ({ item }: { item: Message & { isLastOfRun: boolean } }) => (
-    <MessageBubble message={item} isLastOfRun={item.isLastOfRun} />
-  );
+  const chatItems: ChatListItem[] = isTyping
+    ? [...displayMessages, { id: 'typing-indicator', type: 'typing' }]
+    : displayMessages;
+
+  const renderItem = ({ item }: { item: ChatListItem }) => {
+    if (item.type === 'typing') {
+      return <TypingBubble />;
+    }
+
+    return <MessageBubble message={item} isLastOfRun={item.isLastOfRun} />;
+  };
 
   useEffect(() => {
-    if (displayMessages.length > 0) {
+    if (chatItems.length > 0) {
       flatListRef.current?.scrollToEnd({ animated: true });
     }
-  }, [displayMessages.length]);
+  }, [chatItems.length, isTyping]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -213,14 +231,13 @@ export const ChatScreen = ({ messages, onSendMessage, isTyping = false }: ChatSc
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.messagesContainer}>
         <FlatList
           ref={flatListRef}
-          data={displayMessages}
+          data={chatItems}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.messagesList}
           scrollEnabled
           onEndReachedThreshold={0.1}
         />
-        {isTyping && <TypingBubble />}
       </KeyboardAvoidingView>
       <InputBar onSendMessage={onSendMessage} />
     </SafeAreaView>
