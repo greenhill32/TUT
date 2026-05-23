@@ -1,11 +1,12 @@
 # Current Work Status — TUT!
 
-**Last Updated:** 2026-05-23 19:10 UTC+1
+**Last Updated:** 2026-05-23 19:35 UTC+1
 
 ## In Progress
 - ✏️ Messaging shell UI polish (Claude) — icons & typing animation complete, ready for testing
 
 ## Completed This Session
+- ✅ Downgraded Expo app to SDK 55 so it works with the App Store Expo Go app
 - ✅ Fixed typing indicator placement so the animated dots render under the last conversation line
 - ✅ Added Codex/Claude coordination instructions to `CLAUDE.md`
 - ✅ File path reorganization (moved scenarios/ and lib/ to src/)
