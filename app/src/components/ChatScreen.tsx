@@ -67,10 +67,10 @@ const ChatHeader = () => (
     </View>
     <View style={styles.headerIcons}>
       <TouchableOpacity style={styles.iconButton}>
-        <Phone size={20} stroke="#000" />
+        <Phone size={20} color="#000" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.iconButton}>
-        <Video size={20} stroke="#000" />
+        <Video size={20} color="#000" />
       </TouchableOpacity>
     </View>
   </View>
@@ -174,7 +174,7 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
   return (
     <View style={styles.inputContainer}>
       <TouchableOpacity style={styles.addButton}>
-        <Plus size={20} stroke={theme.hot} />
+        <Plus size={20} color={theme.hot} />
       </TouchableOpacity>
       <TextInput
         style={styles.textInput}
@@ -185,7 +185,7 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
         multiline
       />
       <TouchableOpacity style={styles.micButton}>
-        <Mic size={18} stroke="rgba(0,0,0,0.5)" />
+        <Mic size={18} color="rgba(0,0,0,0.5)" />
       </TouchableOpacity>
       {text.trim() ? (
         <TouchableOpacity
@@ -193,7 +193,7 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
           style={styles.sendButton}
           accessibilityLabel="Send message"
         >
-          <Send size={18} stroke="#fff" />
+          <Send size={18} color="#fff" />
         </TouchableOpacity>
       ) : null}
     </View>
