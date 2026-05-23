@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, Animated } from 'react-native';
-import { Phone, Video, Send, Plus, Mic } from 'lucide-react-native';
+import { Phone, Video, Plus, Mic } from 'lucide-react-native';
 import { theme, chatColors, typography } from '../lib/theme';
 
 interface Message {
@@ -189,7 +189,7 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
       </TouchableOpacity>
       {text.trim() ? (
         <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
-          <Send size={18} color="#fff" />
+          <Text style={styles.sendButtonLabel}>Send</Text>
         </TouchableOpacity>
       ) : null}
     </View>
@@ -399,16 +399,17 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   sendButton: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    minWidth: 64,
+    height: 32,
+    borderRadius: 16,
     backgroundColor: theme.hot,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 14,
   },
-  sendButtonText: {
-    fontSize: 20,
-    color: theme.accent,
-    fontWeight: 'bold',
+  sendButtonLabel: {
+    color: '#fff',
+    fontSize: 17,
+    fontWeight: '700',
   },
 });

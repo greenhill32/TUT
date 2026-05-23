@@ -3,9 +3,10 @@
 **Last Updated:** 2026-05-23 19:10 UTC+1
 
 ## In Progress
-- ✏️ Session housekeeping (Codex) — validating npm/expo tooling and synchronizing STATUS.md workflow notes
+- ✏️ Send button polish (Codex) — switching to iMessage-style “Send” text button using Tracey palette
 
 ## Completed This Session
+- ✅ Updated chat composer send action to iMessage-style “Send” text pill using Tracey palette
 - ✅ Verified local tooling: npm and Node are installed; `npm run lint` currently fails because `expo` is not in PATH
 - ✅ Fixed typing indicator placement so the animated dots render under the last conversation line
 - ✅ Added Codex/Claude coordination instructions to `CLAUDE.md`
