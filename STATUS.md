@@ -1,11 +1,12 @@
 # Current Work Status — TUT!
 
-**Last Updated:** 2026-05-23 19:58 UTC+1
+**Last Updated:** 2026-05-23 20:01 UTC+1
 
 ## In Progress
 - ✏️ Messaging shell UI polish (Claude) — icons & typing animation complete, ready for testing
 
 ## Completed This Session
+- ✅ Added keyboard/send button UX issue to `to-do.txt`
 - ✅ Always show purple send arrow in chat composer instead of initial mic button
 - ✅ Matched TUT Expo versions to working 364 Rails SDK 54 setup
 - ✅ Added initial typing delay before "hiya babes" and fixed send button app colour styling

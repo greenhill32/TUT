@@ -1,0 +1,1 @@
+When the user enters text and presses enter, the keypad does not move. You have to click outside of it to see the send button, so either have a floating keypad or raise the send button, or just fix the enter button.
