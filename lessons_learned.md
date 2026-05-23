@@ -37,10 +37,11 @@
 - **Dismissal phrase pool** — hardcoded string pool beats API for off-scenario scenarios
 
 ### 🔧 Needs Adjustment
-1. **Message IDs** — Using `msg-${Date.now()}` works for now, but UUID would be better
-2. **No error boundaries** — Phase 0.6 requires this. Need RootError boundary component
-3. **No AsyncStorage persistence** — Users close and reopen, messages disappear. Need storage layer (Phase 0.5)
-4. **No deep linking** — Phase 8 requires `tut://chat/:scenarioId`. Haven't wired this yet
+1. **Expo SDK Compatibility (CRITICAL)** — SDK 56+ breaks Expo Go on iOS. Must target SDK 54 for app store build compatibility. If upgrading Expo, test on real device immediately. Downgrade chain: 56 → 55 → 54 required to restore functionality.
+2. **Message IDs** — Using `msg-${Date.now()}` works for now, but UUID would be better
+3. **No error boundaries** — Phase 0.6 requires this. Need RootError boundary component
+4. **No AsyncStorage persistence** — Users close and reopen, messages disappear. Need storage layer (Phase 0.5)
+5. **No deep linking** — Phase 8 requires `tut://chat/:scenarioId`. Haven't wired this yet
 
 ## Next Phase (Phase 1 → 2 Transition)
 
