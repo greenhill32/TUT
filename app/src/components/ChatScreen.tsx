@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, Animated } from 'react-native';
-import { Phone, Video, Send, Plus, Mic } from 'lucide-react-native';
+import { Phone, Video, Send, Plus } from 'lucide-react-native';
 import { theme, chatColors, typography } from '../lib/theme';
 
 interface Message {
@@ -184,18 +184,13 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
         onChangeText={setText}
         multiline
       />
-      <TouchableOpacity style={styles.micButton}>
-        <Mic size={18} color="rgba(0,0,0,0.5)" />
+      <TouchableOpacity
+        onPress={handleSend}
+        style={styles.sendButton}
+        accessibilityLabel="Send message"
+      >
+        <Send size={18} color="#fff" />
       </TouchableOpacity>
-      {text.trim() ? (
-        <TouchableOpacity
-          onPress={handleSend}
-          style={styles.sendButton}
-          accessibilityLabel="Send message"
-        >
-          <Send size={18} color="#fff" />
-        </TouchableOpacity>
-      ) : null}
     </View>
   );
 };
@@ -397,10 +392,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     fontSize: 13,
     maxHeight: 100,
-  },
-  micButton: {
-    fontSize: 16,
-    padding: 6,
   },
   sendButton: {
     width: 30,
