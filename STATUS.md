@@ -1,11 +1,12 @@
 # Current Work Status — TUT!
 
-**Last Updated:** 2026-05-23 18:30 UTC+1
+**Last Updated:** 2026-05-23 18:45 UTC+1
 
 ## In Progress
 - ✏️ Messaging shell UI polish (Claude) — icons & typing animation complete, ready for testing
 
 ## Completed This Session
+- ✅ Added Codex/Claude coordination instructions to `CLAUDE.md`
 - ✅ File path reorganization (moved scenarios/ and lib/ to src/)
 - ✅ Fixed ChatScreen rendering (lineHeight: 1.32 → 18)
 - ✅ Modern icons via lucide-react-native (Phone, Video, Send, Mic, Plus)
@@ -42,11 +43,30 @@
 - Branch: `main`
 
 ## How to Avoid Conflicts
-1. Check this STATUS.md before starting work
-2. Update "In Progress" section with your name before you start
-3. Move completed items to "Completed This Session"
-4. Push changes to git frequently (small commits)
-5. Use `git pull` before major work to sync
+1. Run `git pull` before starting work
+2. Check this `STATUS.md` before starting work
+3. Update "In Progress" section with your name before you start
+4. Move completed items to "Completed This Session"
+5. After each task, run `git add -A && git commit -m "[description]" && git push`
+6. Check `STATUS.md` again before starting a new task in case another agent updated it
+
+## Codex Startup Prompt
+Paste this into the first Codex message when starting a fresh session:
+
+```text
+Before you start working on the TUT! app, read /Users/leemanley/Documents/TUT/STATUS.md
+
+Your instructions:
+1. Read STATUS.md to see what's in progress and what's next
+2. Before starting work, update the "In Progress" section with what you're about to do
+3. When done, move tasks to "Completed This Session"
+4. After each task, run: git add -A && git commit -m "[description]" && git push
+5. Always check STATUS.md again before starting a new task (in case Claude updated it)
+
+Reference files: CLAUDE.md (rules), TUT_PLAN.md (master plan), lessons_learned.md (context)
+
+Current repo location: /Users/leemanley/Documents/TUT
+```
 
 ---
 

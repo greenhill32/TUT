@@ -72,6 +72,24 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 **The one rule that overrides everything:** Ship comedy first. Infrastructure second. The only question that matters is "Is Tracey funny?" Everything else is solvable.
 
+## Cross-Agent Coordination
+
+Before starting work on the TUT! app, read `/Users/leemanley/Documents/TUT/STATUS.md`.
+
+Workflow for Codex/Claude sessions:
+1. Run `git pull` before starting work so `STATUS.md` is current.
+2. Read `STATUS.md` to see what is in progress and what is next.
+3. Before making changes, update the `In Progress` section with what you are about to do.
+4. When done, move finished work to `Completed This Session`.
+5. After each task, run `git add -A && git commit -m "[description]" && git push`.
+6. Check `STATUS.md` again before starting a new task in case another agent updated it.
+
+Reference files:
+- `CLAUDE.md` — rules and project context
+- `TUT_PLAN.md` — master plan
+- `lessons_learned.md` — context and decisions
+- `STATUS.md` — current work, blockers, and handoff notes
+
 ### Product
 - Free tier: 50–100 pre-written scripted scenarios. Tracey texts the user, mostly ignores their replies, pivots back to her own chaos.
 - Paid tier (£2.99/mo): Claude-powered "Your Tracey" — personalised, remembers context, still chaotic and dismissive.
