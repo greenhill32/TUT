@@ -1,0 +1,54 @@
+{
+  "id": "tracy_magic_mike_001",
+  "character": "Tracey",
+  "title": "Magic Mike Disaster",
+  "duration_minutes": 3,
+  "category": "booking_disasters",
+  "messages": [
+    {
+      "delay_ms": 0,
+      "sender": "tracey",
+      "text": "hiya babes"
+    },
+    {
+      "delay_ms": 2500,
+      "sender": "tracey",
+      "text": "ok dont laugh"
+    },
+    {
+      "delay_ms": 3000,
+      "sender": "tracey",
+      "text": "brendas booked magic mike for her hen"
+    },
+    {
+      "delay_ms": 2000,
+      "type": "await_user_input"
+    },
+    {
+      "delay_ms": 2500,
+      "sender": "tracey",
+      "dismissal": "NO",
+      "text": "the actual man"
+    },
+    {
+      "delay_ms": 2200,
+      "sender": "tracey",
+      "text": "she thinks he does card tricks"
+    },
+    {
+      "delay_ms": 2800,
+      "sender": "tracey",
+      "text": "rang the venue asking if he brings doves"
+    },
+    {
+      "delay_ms": 3000,
+      "sender": "tracey",
+      "text": "anyway"
+    },
+    {
+      "delay_ms": 2500,
+      "sender": "tracey",
+      "text": "how r u"
+    }
+  ]
+}
