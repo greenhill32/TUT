@@ -25,11 +25,11 @@ These are done. Do not rebuild them.
 - [ ] Accepted: shipping > elegance. Compliance early beats refactors later.
 
 ### 0.2 Expo Project Init
-- [ ] `npx create-expo-app tut --template expo-template-blank-typescript`
-- [ ] Confirm it runs on device via Expo Go
-- [ ] Install core dependencies: `zustand`, `nativewind`, `expo-router`
-- [ ] Configure `tsconfig.json`, ESLint, Prettier
-- [ ] Set up folder structure: `/app`, `/components`, `/scenarios`, `/store`, `/lib`
+- [x] `npx create-expo-app tut --template expo-template-blank-typescript`
+- [x] Confirm it runs on device via Expo Go
+- [x] Install core dependencies: `zustand`, `nativewind`, `expo-router`
+- [x] Configure `tsconfig.json`, ESLint, Prettier
+- [x] Set up folder structure: `/app`, `/components`, `/scenarios`, `/store`, `/lib` (moved to `/src/`)
 
 ### 0.3 App Store & Identity (Before Feature Work)
 - [ ] Create app in App Store Connect
@@ -92,50 +92,50 @@ These are done. Do not rebuild them.
 *Verify: Show it to someone — they should immediately "get it".*
 
 ### 1.1 Chat Screen Layout
-- [ ] Chat screen at `/app/chat.tsx`
-- [ ] Full-screen layout: header (fixed top) + messages list (scrollable) + input bar (fixed bottom)
-- [ ] Keyboard avoidance — input stays above keyboard on iOS
-- [ ] Auto-scroll to latest message on new message arrival
-- [ ] White background (`#ffffff`)
+- [x] Chat screen at `/src/app/chat.tsx`
+- [x] Full-screen layout: header (fixed top) + messages list (scrollable) + input bar (fixed bottom)
+- [x] Keyboard avoidance — input stays above keyboard on iOS
+- [x] Auto-scroll to latest message on new message arrival
+- [x] White background (`#ffffff`)
 
 ### 1.2 Tracey's Header
-- [ ] Back chevron (accent colour, matching brand)
-- [ ] Tracey avatar — circular, gradient from `hot` to `accent` colour, "T" in Alfa Slab One
-- [ ] Name: "Tracey" — 14px, 700 weight
-- [ ] Status line: "last seen typing forever" — 11px, 45% opacity
-- [ ] Video and phone call icons (decorative, non-functional in V1)
-- [ ] Dynamic Island safe area
+- [x] Back chevron (accent colour, matching brand)
+- [x] Tracey avatar — circular, gradient from `hot` to `accent` colour, "T" in Alfa Slab One
+- [x] Name: "Tracey" — 14px, 700 weight
+- [x] Status line: "last seen typing forever" — 11px, 45% opacity
+- [x] Video and phone call icons (decorative, non-functional in V1)
+- [x] Dynamic Island safe area
 
 ### 1.3 Message Bubbles
-- [ ] Tracey messages: left-aligned, `#ececec` background, `#000` text
-- [ ] User messages: right-aligned, hot colour background, white text
-- [ ] Bubble corner radius: 18px, with tail (5px radius) on last bubble in a run
-- [ ] Font: 13.5px, line-height 1.32
-- [ ] `isLastOfRun` logic — tail only on final message before sender switches
-- [ ] Timestamps below each message group
+- [x] Tracey messages: left-aligned, `#ececec` background, `#000` text
+- [x] User messages: right-aligned, hot colour background, white text
+- [x] Bubble corner radius: 18px, with tail (5px radius) on last bubble in a run
+- [x] Font: 13.5px, line-height 1.32
+- [x] `isLastOfRun` logic — tail only on final message before sender switches
+- [x] Timestamps below each message group
 
 ### 1.4 Typing Indicator
-- [ ] Three bouncing dots, `#999` colour, `#ececec` bubble
-- [ ] CSS/Animated API bounce: 1.2s cycle, 0.15s stagger per dot
-- [ ] Shows while Tracey is "typing" (during `delay_ms` between messages)
-- [ ] Hides when message arrives
+- [x] Three bouncing dots, `#999` colour, `#ececec` bubble
+- [x] CSS/Animated API bounce: 1.2s cycle, 0.15s stagger per dot
+- [x] Shows while Tracey is "typing" (during `delay_ms` between messages)
+- [x] Hides when message arrives
 
 ### 1.5 Read Receipts
 - [ ] "Delivered" shown below last user message
 - [ ] "Read" shown after Tracey's next message fires
 
 ### 1.6 Input Bar
-- [ ] `+` button (left) — non-functional in V1
-- [ ] Text field: "iMessage" placeholder, rounded pill shape
-- [ ] Microphone icon (right of field) — non-functional in V1
-- [ ] Send button appears when user has typed text
-- [ ] Home indicator safe area at bottom
+- [x] `+` button (left) — non-functional in V1
+- [x] Text field: "iMessage" placeholder, rounded pill shape
+- [x] Microphone icon (right of field) — non-functional in V1
+- [x] Send button appears when user has typed text
+- [x] Home indicator safe area at bottom
 
 ### 1.7 First Hard-Coded Scenario (Proof of Life)
-- [ ] App opens → 1.5s pause → Tracey's first message appears
-- [ ] Typing indicator shows during pause
-- [ ] User types reply → send → Tracey's dismissal fires after 2s → continues story
-- [ ] Test on real device via Expo Go ← **must pass before moving on**
+- [x] App opens → 1.5s pause → Tracey's first message appears
+- [x] Typing indicator shows during pause
+- [x] User types reply → send → Tracey's dismissal fires after 2s → continues story
+- [x] Test on real device via Expo Go ← **must pass before moving on**
 
 ---
 
