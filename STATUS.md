@@ -1,11 +1,20 @@
 # Current Work Status - TUT!
 
-**Last Updated:** 2026-05-25 12:05 UTC+1
+**Last Updated:** 2026-05-25 12:55 UTC+1
 
 ## In Progress
 - None currently
 
 ## Completed This Session
+- Done: Implemented Phase 1 guided reply pills (authored options only, no free typing).
+- Done: Converted `magicMike.json` to beat-based scenario flow with deterministic `replyOptions`.
+- Done: Removed chat keyboard path for Phase 1 (no `TextInput`, no iMessage input bar).
+- Done: Added animated left-aligned ghost reply pills with cerise selected state and user-bubble handoff.
+- Done: Added second reply set after "how r u" (`fine`, `not fine`, `im in the nick. call u later`).
+- Done: Wired reset behavior:
+  - Top-left header control resets conversation immediately.
+  - Bottom-right tab now shows `Reset` and restarts scenario flow.
+- Done: Hid Explore content behavior in tab flow for Phase 1 guided interaction.
 - Done: Tested Tracey media messages (voice note + picture) on device path, then rolled back runtime flow to the original startup sequence.
 - Done: Restored original startup pacing and typing behavior in `magicMike.json`, `index.tsx`, and text-only `ChatScreen.tsx`.
 - Done: Removed temporary `expo-audio` runtime wiring from `app.json` and `package.json`.
@@ -52,6 +61,7 @@
 - Message IDs still use Date.now() (should be UUID).
 - Media assets are intentionally parked (not active): `app/assets/audio/dave.mp3` and `app/assets/images/Dave.jpg`.
 - Parked asset references live in `app/src/lib/parkedMediaAssets.ts`.
+- Guided-reply state/timers are in-memory only; persistence and replay behavior still pending future phases.
 
 ## Git Info
 - Remote: `git@github.com:greenhill32/TUT.git`

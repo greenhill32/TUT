@@ -133,6 +133,13 @@ From `01_Day-0 Companion Guide.docx`:
 - For single-line chat input, use `returnKeyType="send"` with `onSubmitEditing`; only reintroduce `multiline` when multi-line messages are intentionally supported.
 - Set `keyboardShouldPersistTaps="handled"` on the `FlatList` so the send button remains tappable while the keyboard is open.
 
+### Phase 1 Guided Reply Rule
+- Phase 1 uses authored, deterministic reply options only (`replyOptions` in scenario beats).
+- Do not reintroduce free typing or keyboard-driven chat input in Phase 1.
+- Selected reply pills should transition into user chat bubbles before continuing Tracey beats.
+- Keep startup sequence authored ("hiya babes" flow) and preserve typing delay timing.
+- Bottom-right tab acts as `Reset` in this phase and restarts the scenario flow.
+
 ### Media Test Parking Rule
 - If voice note or image features are tested and then paused, do not delete assets.
 - Keep parked media files in `app/assets/audio/` and `app/assets/images/`.

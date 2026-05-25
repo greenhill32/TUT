@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
 import { ChatScreen } from '@/components/ChatScreen';
 import magicMikeScenario from '@/scenarios/magicMike.json';
 
@@ -10,131 +11,150 @@ interface Message {
   timestamp?: string;
 }
 
-interface ScenarioMessage {
-  delay_ms: number;
-  sender?: 'tracey' | 'user';
-  text?: string;
-  type?: string;
-  dismissal?: string;
+interface ReplyOption {
+  id: string;
+  label: string;
+  nextBeatId: string;
+}
+
+interface StoryBeat {
+  id: string;
+  from: 'tracey' | 'user' | 'system';
+  text: string;
+  delayMs?: number;
+  nextBeatId?: string;
+  replyOptions?: ReplyOption[];
 }
 
 interface Scenario {
-  messages: ScenarioMessage[];
+  startBeatId: string;
+  beats: StoryBeat[];
 }
 
-const magicMike = magicMikeScenario as Scenario;
-
-const DISMISSALS = [
-  'I know, but as I was saying...',
-  'You don\'t say? Anyway...',
-  'Christ on a bike, but...',
-  'Fair point, but listen...',
-  'Tell me about it, but here\'s the thing...',
-  'Yeah but as I was saying...',
-  'Anyway...',
-  'Yeah anyway...',
-];
-
-function getRandomDismissal() {
-  return DISMISSALS[Math.floor(Math.random() * DISMISSALS.length)];
-}
+const scenario = magicMikeScenario as Scenario;
 
 export default function HomeScreen() {
+  const { reset } = useLocalSearchParams<{ reset?: string }>();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [scenarioIndex, setScenarioIndex] = useState(0);
+  const [replyOptions, setReplyOptions] = useState<ReplyOption[] | null>(null);
+  const [selectedReplyId, setSelectedReplyId] = useState<string | null>(null);
+  const [replyDisabled, setReplyDisabled] = useState(false);
+  const msgCounterRef = useRef(0);
+  const timeoutsRef = useRef<number[]>([]);
 
-  useEffect(() => {
-    let msgId = 0;
-
-    const playScenario = (scenario: Scenario) => {
-      const processMessage = (index: number) => {
-        if (index >= scenario.messages.length) {
-          return;
-        }
-
-        const msg = scenario.messages[index];
-
-        if (msg.type === 'await_user_input') {
-          setIsTyping(false);
-          return;
-        }
-
-        if (msg.sender && msg.text) {
-          const delay = msg.delay_ms || 0;
-
-          if (msg.sender === 'tracey' && delay > 0) {
-            setIsTyping(true);
-          }
-
-          setTimeout(() => {
-            setIsTyping(false);
-            const newMessage: Message = {
-              id: `msg-${Date.now()}-${msgId++}`,
-              sender: msg.sender as 'tracey' | 'user',
-              text: msg.text || '',
-            };
-            setMessages((prev) => [...prev, newMessage]);
-            processMessage(index + 1);
-          }, delay);
-        } else {
-          processMessage(index + 1);
-        }
-      };
-
-      processMessage(0);
-    };
-
-    playScenario(magicMike);
-
-    return () => {
-      // Cleanup timeouts if component unmounts
-    };
+  const beatMap = useMemo(() => {
+    const map = new Map<string, StoryBeat>();
+    scenario.beats.forEach((beat) => map.set(beat.id, beat));
+    return map;
   }, []);
 
-  const handleSendMessage = (text: string) => {
-    const newMessage: Message = {
-      id: `msg-${Date.now()}`,
-      sender: 'user',
-      text,
-    };
-    setMessages((prev) => [...prev, newMessage]);
+  const appendMessage = (sender: 'tracey' | 'user', text: string) => {
+    msgCounterRef.current += 1;
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `msg-${Date.now()}-${msgCounterRef.current}`,
+        sender,
+        text,
+      },
+    ]);
+  };
 
-    const currentMsgIndex = scenarioIndex + 1;
-    if (currentMsgIndex < magicMike.messages.length) {
-      setScenarioIndex(currentMsgIndex);
-      setIsTyping(true);
-
-      setTimeout(() => {
-        const nextMsg = magicMike.messages[currentMsgIndex];
-        if (nextMsg.text) {
-          const dismissal = getRandomDismissal();
-          const responseText = nextMsg.dismissal ? `${nextMsg.dismissal}\n${nextMsg.text}` : nextMsg.text;
-
-          const dismissalMsg: Message = {
-            id: `msg-${Date.now()}`,
-            sender: 'tracey',
-            text: dismissal,
-          };
-          setMessages((prev) => [...prev, dismissalMsg]);
-
-          setTimeout(() => {
-            const responseMsg: Message = {
-              id: `msg-${Date.now()}`,
-              sender: 'tracey',
-              text: responseText || '',
-            };
-            setMessages((prev) => [...prev, responseMsg]);
-            setIsTyping(false);
-          }, 2000);
-        }
-      }, 1500);
+  const playBeat = (beatId?: string) => {
+    if (!beatId) {
+      setIsTyping(false);
+      return;
     }
+
+    const beat = beatMap.get(beatId);
+    if (!beat) {
+      setIsTyping(false);
+      return;
+    }
+
+    const delay = beat.delayMs ?? 0;
+    if (beat.from === 'tracey' && delay > 0) {
+      setIsTyping(true);
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (beat.from === 'tracey' || beat.from === 'user') {
+        appendMessage(beat.from, beat.text);
+      }
+      setIsTyping(false);
+
+      if (beat.replyOptions && beat.replyOptions.length > 0) {
+        setReplyOptions(beat.replyOptions);
+        setSelectedReplyId(null);
+        setReplyDisabled(false);
+        return;
+      }
+
+      playBeat(beat.nextBeatId);
+    }, delay);
+    timeoutsRef.current.push(timeoutId as unknown as number);
+  };
+
+  const clearAllTimers = () => {
+    timeoutsRef.current.forEach((id) => clearTimeout(id));
+    timeoutsRef.current = [];
+  };
+
+  const startScenario = () => {
+    clearAllTimers();
+    setMessages([]);
+    setIsTyping(false);
+    setReplyOptions(null);
+    setSelectedReplyId(null);
+    setReplyDisabled(false);
+    msgCounterRef.current = 0;
+    playBeat(scenario.startBeatId);
+  };
+
+  useEffect(() => {
+    startScenario();
+    return () => clearAllTimers();
+  }, []);
+
+  useEffect(() => {
+    if (reset) {
+      startScenario();
+    }
+  }, [reset]);
+
+  const handleSelectReply = (option: ReplyOption) => {
+    if (replyDisabled) {
+      return;
+    }
+
+    setSelectedReplyId(option.id);
+    setReplyDisabled(true);
+
+    const outerTimeoutId = setTimeout(() => {
+      appendMessage('user', option.label);
+      setReplyOptions(null);
+      setSelectedReplyId(null);
+
+      const innerTimeoutId = setTimeout(() => {
+        playBeat(option.nextBeatId);
+      }, 180);
+      timeoutsRef.current.push(innerTimeoutId as unknown as number);
+    }, 180);
+    timeoutsRef.current.push(outerTimeoutId as unknown as number);
   };
 
   return (
     <View style={{ flex: 1 }}>
-      <ChatScreen messages={messages} onSendMessage={handleSendMessage} isTyping={isTyping} />
+      <ChatScreen
+        messages={messages}
+        isTyping={isTyping}
+        replyOptions={replyOptions}
+        selectedReplyId={selectedReplyId}
+        replyDisabled={replyDisabled}
+        onSelectReply={handleSelectReply}
+        onResetSession={startScenario}
+      />
     </View>
   );
 }

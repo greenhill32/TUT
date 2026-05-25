@@ -98,6 +98,20 @@
 ### Watch Next Time
 1. **Scope test-only dependency installs** - temporary modules like `expo-audio` are useful for test passes, but they should be removed from runtime config when the feature is parked.
 
+## Guided Reply Pills (Phase 1)
+
+### What Worked
+1. **Beat-based authored flow simplified control** - moving from linear messages to `StoryBeat` + `replyOptions` made deterministic pacing and option-gated input straightforward.
+
+2. **No-keyboard phase made UX consistent** - removing free typing and iMessage input prevented accidental keyboard activation and kept interactions in-character.
+
+3. **Pill-to-bubble handoff felt interactive without AI** - disabling all options on tap, applying cerise selected state, then appending user bubble preserved authored comedy rhythm while still feeling responsive.
+
+4. **Tab-level reset helped iteration** - wiring the bottom-right tab to `Reset` sped up testing loops without adding state complexity.
+
+### Watch Next Time
+1. **Guard timer cleanup during resets** - guided flows with nested `setTimeout` need explicit cancellation so old delayed beats never leak into fresh runs.
+
 ## Velocity & Scope
 
 | Phase | Work | Time |
