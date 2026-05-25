@@ -74,7 +74,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Cross-Agent Coordination
 
-Before starting work on the TUT! app, read `/Users/leemanley/Documents/TUT/STATUS.md`.
+Before starting work on the TUT! app, read `STATUS.md` in the current repo. The original Mac path was `/Users/leemanley/Documents/TUT`; this Windows workspace is `C:\claude\TUT`.
 
 Workflow for Codex/Claude sessions:
 1. Run `git pull` before starting work so `STATUS.md` is current.
@@ -127,3 +127,13 @@ From `01_Day-0 Companion Guide.docx`:
 5. Accessibility roles on all interactive elements
 6. Navigation tested (back gesture, deep linking scaffold)
 7. Sensitive state in SecureStore, not AsyncStorage
+
+### React Native Chat UX Notes
+- Keep the chat `InputBar` inside the same `KeyboardAvoidingView` as the message list so the keyboard does not hide the send button.
+- For single-line chat input, use `returnKeyType="send"` with `onSubmitEditing`; only reintroduce `multiline` when multi-line messages are intentionally supported.
+- Set `keyboardShouldPersistTaps="handled"` on the `FlatList` so the send button remains tappable while the keyboard is open.
+
+### Media Test Parking Rule
+- If voice note or image features are tested and then paused, do not delete assets.
+- Keep parked media files in `app/assets/audio/` and `app/assets/images/`.
+- Keep explicit non-runtime references in `app/src/lib/parkedMediaAssets.ts` so reactivation later is fast and path-safe.

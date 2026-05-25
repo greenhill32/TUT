@@ -24,7 +24,6 @@ const StatusBar = ({ time = '14:07' }) => (
   <View style={styles.statusBar}>
     <Text style={styles.statusTime}>{time}</Text>
     <View style={styles.statusIcons}>
-      {/* Signal bars */}
       <View style={{ flexDirection: 'row', gap: 1, marginRight: 8 }}>
         {[1, 2, 3, 4].map((i) => (
           <View
@@ -38,11 +37,9 @@ const StatusBar = ({ time = '14:07' }) => (
           />
         ))}
       </View>
-      {/* WiFi */}
       <View style={{ width: 15, height: 11, marginRight: 8 }}>
         <Text style={{ fontSize: 10 }}>📶</Text>
       </View>
-      {/* Battery */}
       <View style={{ width: 26, height: 12, borderWidth: 1, borderColor: '#000', borderRadius: 2, marginRight: 4 }}>
         <View style={{ flex: 1, backgroundColor: '#000' }} />
         <View style={{ width: 2, height: 6, backgroundColor: '#000', position: 'absolute', right: -3, top: 3 }} />
@@ -163,10 +160,13 @@ const TypingBubble = () => (
 
 const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) => {
   const [text, setText] = useState('');
+  const canSend = text.trim().length > 0;
 
   const handleSend = () => {
-    if (text.trim()) {
-      onSendMessage(text);
+    const trimmed = text.trim();
+
+    if (trimmed) {
+      onSendMessage(trimmed);
       setText('');
     }
   };
@@ -182,11 +182,15 @@ const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) 
         placeholderTextColor="rgba(0,0,0,0.35)"
         value={text}
         onChangeText={setText}
-        multiline
+        returnKeyType="send"
+        enablesReturnKeyAutomatically
+        onSubmitEditing={handleSend}
+        blurOnSubmit={false}
       />
       <TouchableOpacity
         onPress={handleSend}
-        style={styles.sendButton}
+        disabled={!canSend}
+        style={[styles.sendButton, !canSend && styles.sendButtonDisabled]}
         accessibilityLabel="Send message"
       >
         <Send size={18} color="#fff" />
@@ -234,11 +238,12 @@ export const ChatScreen = ({ messages, onSendMessage, isTyping = false }: ChatSc
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.messagesList}
+          keyboardShouldPersistTaps="handled"
           scrollEnabled
           onEndReachedThreshold={0.1}
         />
+        <InputBar onSendMessage={onSendMessage} />
       </KeyboardAvoidingView>
-      <InputBar onSendMessage={onSendMessage} />
     </SafeAreaView>
   );
 };
@@ -311,12 +316,12 @@ const styles = StyleSheet.create({
   messagesContainer: {
     flex: 1,
     minHeight: 0,
-    paddingHorizontal: 10,
-    paddingVertical: 12,
   },
   messagesList: {
     flexGrow: 1,
     justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 12,
   },
   messageLine: {
     flexDirection: 'row',
@@ -400,5 +405,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.hot,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  sendButtonDisabled: {
+    opacity: 0.35,
   },
 });

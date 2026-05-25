@@ -72,6 +72,32 @@
 3. **Real device testing earlier** — web preview masks platform-specific bugs
 4. **Test Tracey's voice with real users before scaling to 50 scenarios** — we have 4 validated, need to test variations
 
+## Keyboard & Composer UX
+
+### What Worked
+1. **Put the composer inside `KeyboardAvoidingView`** - keeping the `FlatList` and `InputBar` in the same avoiding container lets the send button move with the keyboard instead of being hidden under it.
+
+2. **Use `returnKeyType="send"` plus `onSubmitEditing`** - for single-line chat input, this makes the keyboard action behave like a send button and avoids forcing users to dismiss the keyboard first.
+
+3. **Set `keyboardShouldPersistTaps="handled"` on the message list** - this lets taps on the send button register while the keyboard is still open.
+
+### Watch Next Time
+1. **`multiline` changes return-key behavior** - it can turn Enter into a newline instead of a send action, so only use it once we deliberately support multi-line messages.
+
+2. **Lockfile drift can happen during local tooling runs** - `app/package-lock.json` picked up a small npm metadata change unrelated to the UX fix. Review package lock diffs before bundling them into commits.
+
+## Media Feature Testing
+
+### What Worked
+1. **Prototype media in scenario data first** - adding temporary `voice` and `image` message types gave quick end-to-end UI validation on device without committing to final architecture.
+
+2. **Roll back runtime, keep assets parked** - after testing, we restored the original startup chat flow but retained `dave.mp3` and `Dave.jpg` in assets for later use.
+
+3. **Anchor parked assets in code** - keeping non-runtime references in `app/src/lib/parkedMediaAssets.ts` prevents path drift and saves setup time when re-enabling media.
+
+### Watch Next Time
+1. **Scope test-only dependency installs** - temporary modules like `expo-audio` are useful for test passes, but they should be removed from runtime config when the feature is parked.
+
 ## Velocity & Scope
 
 | Phase | Work | Time |

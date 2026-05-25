@@ -93,7 +93,6 @@ export default function HomeScreen() {
   }, []);
 
   const handleSendMessage = (text: string) => {
-    // Add user message
     const newMessage: Message = {
       id: `msg-${Date.now()}`,
       sender: 'user',
@@ -101,13 +100,11 @@ export default function HomeScreen() {
     };
     setMessages((prev) => [...prev, newMessage]);
 
-    // Continue to next message in scenario
     const currentMsgIndex = scenarioIndex + 1;
     if (currentMsgIndex < magicMike.messages.length) {
       setScenarioIndex(currentMsgIndex);
       setIsTyping(true);
 
-      // After a short delay, add Tracey's dismissal and continue
       setTimeout(() => {
         const nextMsg = magicMike.messages[currentMsgIndex];
         if (nextMsg.text) {
@@ -125,7 +122,7 @@ export default function HomeScreen() {
             const responseMsg: Message = {
               id: `msg-${Date.now()}`,
               sender: 'tracey',
-              text: responseText,
+              text: responseText || '',
             };
             setMessages((prev) => [...prev, responseMsg]);
             setIsTyping(false);
