@@ -20,34 +20,6 @@ type ChatListItem =
   | (Message & { isLastOfRun: boolean; type?: 'message' })
   | { id: 'typing-indicator'; type: 'typing' };
 
-const StatusBar = ({ time = '14:07' }) => (
-  <View style={styles.statusBar}>
-    <Text style={styles.statusTime}>{time}</Text>
-    <View style={styles.statusIcons}>
-      <View style={{ flexDirection: 'row', gap: 1, marginRight: 8 }}>
-        {[1, 2, 3, 4].map((i) => (
-          <View
-            key={i}
-            style={{
-              width: 3,
-              height: 2 + i,
-              backgroundColor: '#000',
-              borderRadius: 0.5,
-            }}
-          />
-        ))}
-      </View>
-      <View style={{ width: 15, height: 11, marginRight: 8 }}>
-        <Text style={{ fontSize: 10 }}>📶</Text>
-      </View>
-      <View style={{ width: 26, height: 12, borderWidth: 1, borderColor: '#000', borderRadius: 2, marginRight: 4 }}>
-        <View style={{ flex: 1, backgroundColor: '#000' }} />
-        <View style={{ width: 2, height: 6, backgroundColor: '#000', position: 'absolute', right: -3, top: 3 }} />
-      </View>
-    </View>
-  </View>
-);
-
 const ChatHeader = () => (
   <View style={styles.header}>
     <TouchableOpacity style={styles.backButton}>
@@ -229,7 +201,6 @@ export const ChatScreen = ({ messages, onSendMessage, isTyping = false }: ChatSc
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar />
       <ChatHeader />
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.messagesContainer}>
         <FlatList
@@ -252,23 +223,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: chatColors.background,
-  },
-  statusBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: chatColors.background,
-  },
-  statusTime: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#000',
-  },
-  statusIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   header: {
     flexDirection: 'row',
