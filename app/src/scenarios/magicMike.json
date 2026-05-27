@@ -4,51 +4,76 @@
   "title": "Magic Mike Disaster",
   "duration_minutes": 3,
   "category": "booking_disasters",
-  "messages": [
+  "startBeatId": "magic_mike_01",
+  "beats": [
     {
-      "delay_ms": 1800,
-      "sender": "tracey",
-      "text": "hiya babes"
+      "id": "magic_mike_01",
+      "from": "tracey",
+      "text": "hiya babes",
+      "delayMs": 1800,
+      "nextBeatId": "magic_mike_02"
     },
     {
-      "delay_ms": 2500,
-      "sender": "tracey",
-      "text": "ok dont laugh"
+      "id": "magic_mike_02",
+      "from": "tracey",
+      "text": "ok dont laugh",
+      "delayMs": 2500,
+      "nextBeatId": "magic_mike_03"
     },
     {
-      "delay_ms": 3000,
-      "sender": "tracey",
-      "text": "brendas booked magic mike for her hen"
+      "id": "magic_mike_03",
+      "from": "tracey",
+      "text": "brendas booked magic mike for her hen",
+      "delayMs": 3000,
+      "replyOptions": [
+        { "id": "r1", "label": "No way", "nextBeatId": "magic_mike_04" },
+        { "id": "r2", "label": "Is Dave involved?", "nextBeatId": "magic_mike_04" },
+        { "id": "r3", "label": "What have you done?", "nextBeatId": "magic_mike_04" }
+      ]
     },
     {
-      "delay_ms": 2000,
-      "type": "await_user_input"
+      "id": "magic_mike_04",
+      "from": "tracey",
+      "text": "the actual man",
+      "delayMs": 2500,
+      "nextBeatId": "magic_mike_05"
     },
     {
-      "delay_ms": 2500,
-      "sender": "tracey",
-      "dismissal": "NO",
-      "text": "the actual man"
+      "id": "magic_mike_05",
+      "from": "tracey",
+      "text": "she thinks he does card tricks",
+      "delayMs": 2200,
+      "nextBeatId": "magic_mike_06"
     },
     {
-      "delay_ms": 2200,
-      "sender": "tracey",
-      "text": "she thinks he does card tricks"
+      "id": "magic_mike_06",
+      "from": "tracey",
+      "text": "rang the venue asking if he brings doves",
+      "delayMs": 2800,
+      "nextBeatId": "magic_mike_07"
     },
     {
-      "delay_ms": 2800,
-      "sender": "tracey",
-      "text": "rang the venue asking if he brings doves"
+      "id": "magic_mike_07",
+      "from": "tracey",
+      "text": "anyway",
+      "delayMs": 3000,
+      "nextBeatId": "magic_mike_08"
     },
     {
-      "delay_ms": 3000,
-      "sender": "tracey",
-      "text": "anyway"
+      "id": "magic_mike_08",
+      "from": "tracey",
+      "text": "how r u",
+      "delayMs": 2500,
+      "replyOptions": [
+        { "id": "r4", "label": "fine", "nextBeatId": "magic_mike_end" },
+        { "id": "r5", "label": "not fine", "nextBeatId": "magic_mike_end" },
+        { "id": "r6", "label": "im in the nick. call u later", "nextBeatId": "magic_mike_end" }
+      ]
     },
     {
-      "delay_ms": 2500,
-      "sender": "tracey",
-      "text": "how r u"
+      "id": "magic_mike_end",
+      "from": "system",
+      "text": ""
     }
   ]
 }

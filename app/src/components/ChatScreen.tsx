@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, Animated } from 'react-native';
-import { Phone, Video, Send, Plus } from 'lucide-react-native';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, SafeAreaView, Animated } from 'react-native';
+import { Phone, Video } from 'lucide-react-native';
 import { theme, chatColors, typography } from '../lib/theme';
 
 interface Message {
@@ -10,50 +10,29 @@ interface Message {
   timestamp?: string;
 }
 
+interface ReplyOption {
+  id: string;
+  label: string;
+  nextBeatId: string;
+}
+
 interface ChatScreenProps {
   messages: Message[];
-  onSendMessage: (text: string) => void;
   isTyping?: boolean;
+  replyOptions: ReplyOption[] | null;
+  selectedReplyId: string | null;
+  replyDisabled: boolean;
+  onSelectReply: (option: ReplyOption) => void;
+  onResetSession: () => void;
 }
 
 type ChatListItem =
   | (Message & { isLastOfRun: boolean; type?: 'message' })
   | { id: 'typing-indicator'; type: 'typing' };
 
-const StatusBar = ({ time = '14:07' }) => (
-  <View style={styles.statusBar}>
-    <Text style={styles.statusTime}>{time}</Text>
-    <View style={styles.statusIcons}>
-      {/* Signal bars */}
-      <View style={{ flexDirection: 'row', gap: 1, marginRight: 8 }}>
-        {[1, 2, 3, 4].map((i) => (
-          <View
-            key={i}
-            style={{
-              width: 3,
-              height: 2 + i,
-              backgroundColor: '#000',
-              borderRadius: 0.5,
-            }}
-          />
-        ))}
-      </View>
-      {/* WiFi */}
-      <View style={{ width: 15, height: 11, marginRight: 8 }}>
-        <Text style={{ fontSize: 10 }}>📶</Text>
-      </View>
-      {/* Battery */}
-      <View style={{ width: 26, height: 12, borderWidth: 1, borderColor: '#000', borderRadius: 2, marginRight: 4 }}>
-        <View style={{ flex: 1, backgroundColor: '#000' }} />
-        <View style={{ width: 2, height: 6, backgroundColor: '#000', position: 'absolute', right: -3, top: 3 }} />
-      </View>
-    </View>
-  </View>
-);
-
-const ChatHeader = () => (
+const ChatHeader = ({ onResetSession }: { onResetSession: () => void }) => (
   <View style={styles.header}>
-    <TouchableOpacity style={styles.backButton}>
+    <TouchableOpacity style={styles.backButton} onPress={onResetSession} accessibilityRole="button" accessibilityLabel="Reset chat">
       <Text style={{ fontSize: 16, color: theme.accent }}>‹</Text>
     </TouchableOpacity>
     <View style={styles.avatarContainer}>
@@ -161,41 +140,103 @@ const TypingBubble = () => (
   </View>
 );
 
-const InputBar = ({ onSendMessage }: { onSendMessage: (text: string) => void }) => {
-  const [text, setText] = useState('');
+const ReplyPills = ({
+  replyOptions,
+  selectedReplyId,
+  replyDisabled,
+  onSelectReply,
+}: {
+  replyOptions: ReplyOption[];
+  selectedReplyId: string | null;
+  replyDisabled: boolean;
+  onSelectReply: (option: ReplyOption) => void;
+}) => {
+  const opacityValuesRef = useRef<Animated.Value[]>([]);
+  const translateValuesRef = useRef<Animated.Value[]>([]);
+  const selectedShiftRef = useRef(new Animated.Value(0));
 
-  const handleSend = () => {
-    if (text.trim()) {
-      onSendMessage(text);
-      setText('');
+  if (opacityValuesRef.current.length !== replyOptions.length) {
+    opacityValuesRef.current = replyOptions.map(() => new Animated.Value(0));
+    translateValuesRef.current = replyOptions.map(() => new Animated.Value(10));
+    selectedShiftRef.current = new Animated.Value(0);
+  }
+
+  useEffect(() => {
+    const animations = replyOptions.map((_, index) =>
+      Animated.parallel([
+        Animated.timing(opacityValuesRef.current[index], {
+          toValue: 1,
+          duration: 180,
+          delay: index * 80,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateValuesRef.current[index], {
+          toValue: 0,
+          duration: 180,
+          delay: index * 80,
+          useNativeDriver: true,
+        }),
+      ])
+    );
+
+    Animated.stagger(80, animations).start();
+  }, [replyOptions]);
+
+  useEffect(() => {
+    if (!selectedReplyId) {
+      selectedShiftRef.current.setValue(0);
+      return;
     }
-  };
+
+    Animated.timing(selectedShiftRef.current, {
+      toValue: 44,
+      duration: 180,
+      useNativeDriver: true,
+    }).start();
+  }, [selectedReplyId]);
 
   return (
-    <View style={styles.inputContainer}>
-      <TouchableOpacity style={styles.addButton}>
-        <Plus size={20} color={theme.hot} />
-      </TouchableOpacity>
-      <TextInput
-        style={styles.textInput}
-        placeholder="iMessage"
-        placeholderTextColor="rgba(0,0,0,0.35)"
-        value={text}
-        onChangeText={setText}
-        multiline
-      />
-      <TouchableOpacity
-        onPress={handleSend}
-        style={styles.sendButton}
-        accessibilityLabel="Send message"
-      >
-        <Send size={18} color="#fff" />
-      </TouchableOpacity>
+    <View style={styles.replyContainer}>
+      {replyOptions.map((option, index) => {
+        const isSelected = selectedReplyId === option.id;
+        return (
+          <Animated.View
+            key={option.id}
+            style={{
+              opacity: opacityValuesRef.current[index],
+              transform: [
+                { translateY: translateValuesRef.current[index] },
+                { translateX: isSelected ? selectedShiftRef.current : 0 },
+              ],
+            }}
+          >
+            <TouchableOpacity
+              style={[styles.replyPill, isSelected && styles.replyPillSelected]}
+              disabled={replyDisabled}
+              onPress={() => onSelectReply(option)}
+              accessibilityRole="button"
+              accessibilityLabel={option.label}
+            >
+              <Text style={[styles.replyPillText, isSelected && styles.replyPillTextSelected]}>
+                {option.label}
+              </Text>
+            </TouchableOpacity>
+          </Animated.View>
+        );
+      })}
     </View>
   );
 };
 
-export const ChatScreen = ({ messages, onSendMessage, isTyping = false }: ChatScreenProps) => {
+export const ChatScreen = ({
+  messages,
+  isTyping = false,
+  replyOptions,
+  selectedReplyId,
+  replyDisabled,
+  onSelectReply,
+  onResetSession,
+}: ChatScreenProps) => {
   const flatListRef = useRef<FlatList>(null);
 
   const displayMessages = messages.map((msg, idx, arr) => ({
@@ -218,16 +259,13 @@ export const ChatScreen = ({ messages, onSendMessage, isTyping = false }: ChatSc
   };
 
   useEffect(() => {
-    if (chatItems.length > 0) {
-      flatListRef.current?.scrollToEnd({ animated: true });
-    }
-  }, [chatItems.length, isTyping]);
+    flatListRef.current?.scrollToEnd({ animated: true });
+  }, [chatItems.length, isTyping, replyOptions?.length, selectedReplyId]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar />
-      <ChatHeader />
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.messagesContainer}>
+      <ChatHeader onResetSession={onResetSession} />
+      <View style={styles.messagesContainer}>
         <FlatList
           ref={flatListRef}
           data={chatItems}
@@ -237,8 +275,15 @@ export const ChatScreen = ({ messages, onSendMessage, isTyping = false }: ChatSc
           scrollEnabled
           onEndReachedThreshold={0.1}
         />
-      </KeyboardAvoidingView>
-      <InputBar onSendMessage={onSendMessage} />
+        {replyOptions && replyOptions.length > 0 ? (
+          <ReplyPills
+            replyOptions={replyOptions}
+            selectedReplyId={selectedReplyId}
+            replyDisabled={replyDisabled}
+            onSelectReply={onSelectReply}
+          />
+        ) : null}
+      </View>
     </SafeAreaView>
   );
 };
@@ -247,23 +292,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: chatColors.background,
-  },
-  statusBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: chatColors.background,
-  },
-  statusTime: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#000',
-  },
-  statusIcons: {
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   header: {
     flexDirection: 'row',
@@ -311,12 +339,12 @@ const styles = StyleSheet.create({
   messagesContainer: {
     flex: 1,
     minHeight: 0,
-    paddingHorizontal: 10,
-    paddingVertical: 12,
   },
   messagesList: {
     flexGrow: 1,
     justifyContent: 'flex-start',
+    paddingHorizontal: 10,
+    paddingVertical: 12,
   },
   messageLine: {
     flexDirection: 'row',
@@ -335,7 +363,7 @@ const styles = StyleSheet.create({
     backgroundColor: chatColors.traceyBubble,
   },
   userBubble: {
-    backgroundColor: chatColors.userBubble,
+    backgroundColor: theme.hot,
   },
   traceyText: {
     color: chatColors.traceyText,
@@ -357,48 +385,37 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: '#999',
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    flexShrink: 0,
+  replyContainer: {
     paddingHorizontal: 10,
-    paddingVertical: 8,
-    gap: 7,
-    backgroundColor: '#fafafa',
-    borderTopWidth: 0.5,
-    borderTopColor: chatColors.separator,
+    paddingTop: 4,
+    paddingBottom: 10,
+    alignItems: 'flex-start',
+    gap: 6,
   },
-  addButton: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    borderWidth: 1.5,
-    borderColor: 'rgba(0,0,0,0.25)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addButtonText: {
-    fontSize: 18,
-    color: 'rgba(0,0,0,0.4)',
-    fontWeight: '300',
-  },
-  textInput: {
-    flex: 1,
+  replyPill: {
     backgroundColor: '#fff',
-    borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.12)',
-    borderRadius: 18,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    fontSize: 13,
-    maxHeight: 100,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.18)',
+    borderRadius: 999,
+    paddingVertical: 11,
+    paddingHorizontal: 20,
+    marginVertical: 6,
+    minWidth: 140,
+    alignSelf: 'flex-start',
   },
-  sendButton: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+  replyPillSelected: {
     backgroundColor: theme.hot,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderWidth: 0,
+    alignSelf: 'flex-end',
+    borderRadius: 22,
+  },
+  replyPillText: {
+    color: '#222',
+    fontSize: 14,
+  },
+  replyPillTextSelected: {
+    color: '#fff',
   },
 });
+
+
