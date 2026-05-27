@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#dff2d8',
   },
   userBubble: {
-    backgroundColor: theme.hot,
+    backgroundColor: chatColors.userBubble,
   },
   traceyText: {
     color: chatColors.traceyText,
@@ -540,7 +540,7 @@ const styles = StyleSheet.create({
   replyPill: {
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.18)',
+    borderColor: theme.hot,
     borderRadius: 999,
     paddingVertical: 11,
     paddingHorizontal: 20,

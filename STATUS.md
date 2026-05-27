@@ -1,11 +1,15 @@
 # Current Work Status - TUT!
 
-**Last Updated:** 2026-05-27 21:15 UTC+1
+**Last Updated:** 2026-05-27 UTC+1
 
 ## In Progress
 - None currently
 
 ## Completed This Session
+- Done: Changed Tracey message bubbles from grey (`#ececec`) to cerise (`#FF2D7A`) with white text — updated `chatColors.traceyBubble` and `chatColors.traceyText` in `theme.ts`.
+- Done: Changed user message bubbles from cerise/hot to light grey (`#E5E5EA`) with dark text — updated `chatColors.userBubble` and `chatColors.userText` in `theme.ts`, fixed `ChatScreen.tsx` userBubble style which was hardcoded to `theme.hot`.
+- Done: Added thin cerise border outline to reply option pills — `replyPill.borderColor` changed from `rgba(0,0,0,0.18)` to `theme.hot` in `ChatScreen.tsx`.
+- Done: Created `notes.md` in project root with TikTok strategy notes for TUT!/Tracey marketing approach.
 - Done: Created `tescoThing.json` from `docs/tut_s01e01day1script.md` and wired it as the active app scenario.
 - Done: Added active S01E01 media support for scenario beats:
   - Voice-note beats render as play-button waveform bubbles with duration labels.

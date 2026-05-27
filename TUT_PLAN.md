@@ -107,8 +107,8 @@ These are done. Do not rebuild them.
 - [x] Dynamic Island safe area
 
 ### 1.3 Message Bubbles
-- [x] Tracey messages: left-aligned, `#ececec` background, `#000` text
-- [x] User messages: right-aligned, hot colour background, white text
+- [x] Tracey messages: left-aligned, cerise `#FF2D7A` background, white text
+- [x] User messages: right-aligned, light grey `#E5E5EA` background, dark text
 - [x] Bubble corner radius: 18px, with tail (5px radius) on last bubble in a run
 - [x] Font: 13.5px, line-height 1.32
 - [x] `isLastOfRun` logic — tail only on final message before sender switches

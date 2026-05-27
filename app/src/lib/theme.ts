@@ -37,10 +37,10 @@ export const theme = PALETTES.magPink;
 
 // Chat-specific colors
 export const chatColors = {
-  traceyBubble: '#ececec',
-  traceyText: '#000000',
-  userBubble: theme.hot,
-  userText: '#ffffff',
+  traceyBubble: '#FF2D7A',   // cerise
+  traceyText: '#ffffff',
+  userBubble: '#E5E5EA',     // light grey
+  userText: '#000000',
   messageDots: '#999999',
   background: '#ffffff',
   statusBar: '#000000',

@@ -140,6 +140,13 @@ From `01_Day-0 Companion Guide.docx`:
 - Keep startup sequence authored ("hiya babes" flow) and preserve typing delay timing.
 - Bottom-right tab acts as `Reset` in this phase and restarts the scenario flow.
 
+### Chat Colour Scheme (current)
+- Tracey bubbles: cerise `#FF2D7A`, white text — `chatColors.traceyBubble / traceyText` in `src/lib/theme.ts`
+- User bubbles: light grey `#E5E5EA`, dark text — `chatColors.userBubble / userText` in `src/lib/theme.ts`
+- Reply option pills: white fill, thin cerise border (`theme.hot`), cerise fill when selected
+- Dave bubbles: `#dff2d8` (light green), dark text — hardcoded in `ChatScreen.tsx`
+- Do not revert user bubbles to cerise — that was the old scheme.
+
 ### S01E01 Tesco Scenario Notes
 - Active Phase 1 scenario is `app/src/scenarios/tescoThing.json`, generated from `docs/tut_s01e01day1script.md`.
 - Scenario beats may be typed as `message`, `voice-note`, or `image`.
