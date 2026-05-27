@@ -2,12 +2,17 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { ChatScreen } from '@/components/ChatScreen';
-import magicMikeScenario from '@/scenarios/magicMike.json';
+import tescoThingScenario from '@/scenarios/tescoThing.json';
 
 interface Message {
   id: string;
-  sender: 'tracey' | 'user';
-  text: string;
+  sender: 'tracey' | 'dave' | 'user';
+  text?: string;
+  type?: 'message' | 'voice-note' | 'image';
+  durationLabel?: string;
+  transcript?: string;
+  filename?: string;
+  caption?: string;
   timestamp?: string;
 }
 
@@ -19,8 +24,13 @@ interface ReplyOption {
 
 interface StoryBeat {
   id: string;
-  from: 'tracey' | 'user' | 'system';
-  text: string;
+  from: 'tracey' | 'dave' | 'user' | 'system';
+  text?: string;
+  type?: 'message' | 'voice-note' | 'image';
+  durationLabel?: string;
+  transcript?: string;
+  filename?: string;
+  caption?: string;
   delayMs?: number;
   nextBeatId?: string;
   replyOptions?: ReplyOption[];
@@ -31,7 +41,7 @@ interface Scenario {
   beats: StoryBeat[];
 }
 
-const scenario = magicMikeScenario as Scenario;
+const scenario = tescoThingScenario as Scenario;
 
 export default function HomeScreen() {
   const { reset } = useLocalSearchParams<{ reset?: string }>();
@@ -49,14 +59,13 @@ export default function HomeScreen() {
     return map;
   }, []);
 
-  const appendMessage = (sender: 'tracey' | 'user', text: string) => {
+  const appendMessage = (message: Omit<Message, 'id'>) => {
     msgCounterRef.current += 1;
     setMessages((prev) => [
       ...prev,
       {
         id: `msg-${Date.now()}-${msgCounterRef.current}`,
-        sender,
-        text,
+        ...message,
       },
     ]);
   };
@@ -74,13 +83,21 @@ export default function HomeScreen() {
     }
 
     const delay = beat.delayMs ?? 0;
-    if (beat.from === 'tracey' && delay > 0) {
+    if ((beat.from === 'tracey' || beat.from === 'dave') && delay > 0) {
       setIsTyping(true);
     }
 
     const timeoutId = setTimeout(() => {
-      if (beat.from === 'tracey' || beat.from === 'user') {
-        appendMessage(beat.from, beat.text);
+      if (beat.from === 'tracey' || beat.from === 'dave' || beat.from === 'user') {
+        appendMessage({
+          sender: beat.from,
+          text: beat.text,
+          type: beat.type ?? 'message',
+          durationLabel: beat.durationLabel,
+          transcript: beat.transcript,
+          filename: beat.filename,
+          caption: beat.caption,
+        });
       }
       setIsTyping(false);
 
@@ -132,7 +149,7 @@ export default function HomeScreen() {
     setReplyDisabled(true);
 
     const outerTimeoutId = setTimeout(() => {
-      appendMessage('user', option.label);
+      appendMessage({ sender: 'user', text: option.label, type: 'message' });
       setReplyOptions(null);
       setSelectedReplyId(null);
 

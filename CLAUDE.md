@@ -140,6 +140,13 @@ From `01_Day-0 Companion Guide.docx`:
 - Keep startup sequence authored ("hiya babes" flow) and preserve typing delay timing.
 - Bottom-right tab acts as `Reset` in this phase and restarts the scenario flow.
 
+### S01E01 Tesco Scenario Notes
+- Active Phase 1 scenario is `app/src/scenarios/tescoThing.json`, generated from `docs/tut_s01e01day1script.md`.
+- Scenario beats may be typed as `message`, `voice-note`, or `image`.
+- Image beats use filenames that map to `app/assets/s01e01/` in `ChatScreen.tsx`; keep filenames stable when editing script JSON.
+- Voice-note beats currently render as visual bubbles with play icon, waveform, duration, and transcript stored for later audio/subtitle work. They do not play audio yet.
+- Dave is allowed inside this authored S01E01 script as a visual sender (`from: "dave"`) with green bubbles and a `Dave` label; this does not mean free-form Dave/chat mode is in V1.
+
 ### Media Test Parking Rule
 - If voice note or image features are tested and then paused, do not delete assets.
 - Keep parked media files in `app/assets/audio/` and `app/assets/images/`.

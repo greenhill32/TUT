@@ -132,6 +132,7 @@ These are done. Do not rebuild them.
 - [x] Home indicator safe area at bottom
 
 ### 1.7 First Hard-Coded Scenario (Proof of Life)
+- [x] S01E01 "The Tesco Thing" authored as active JSON scenario with guided replies, Dave-labelled green bubbles, real image beats, and visual voice-note beats.
 - [x] App opens → 1.5s pause → Tracey's first message appears
 - [x] Typing indicator shows during pause
 - [x] User types reply → send → Tracey's dismissal fires after 2s → continues story
@@ -144,6 +145,7 @@ These are done. Do not rebuild them.
 *Verify: 5 different scenarios play correctly with correct timing and dismissals.*
 
 ### 2.1 TypeScript Schema
+- [x] Define active beat shape for Phase 1: `{ id, from, text?, type?, delayMs, nextBeatId?, replyOptions?, filename?, durationLabel?, transcript? }`
 - [ ] Define `ScenarioMessage` type: `{ delay_ms, sender, text, type?, dismissal? }`
 - [ ] Define `Scenario` type: `{ id, title, character, duration_minutes, messages, category }`
 - [ ] Create `/scenarios/` folder
@@ -170,6 +172,7 @@ These are done. Do not rebuild them.
 - [ ] Seen list persisted to AsyncStorage (with storage version)
 
 ### 2.5 Content Sprint — Port Existing + Write New
+- [x] **00 · The Tesco Thing** — S01E01 Day 1, self-scan incident, Dave PTSD misunderstanding, cliffhanger witness line.
 *Port from `documentaion/Tracey/chat.jsx` first — voice already validated.*
 - [ ] **01 · Magic Mike** — Brenda thinks he does card tricks ("rang the venue asking if he brings doves")
 - [ ] **02 · Phone in Cake** — Mum's phone baked into Victoria sponge, now in A&E ("the cake is ringing Janet")

@@ -1,0 +1,210 @@
+{
+  "id": "tracey_tesco_001",
+  "character": "Tracey",
+  "title": "The Tesco Thing",
+  "duration_minutes": 4,
+  "category": "shopping_disasters",
+  "startBeatId": "tesco_01",
+  "beats": [
+    {
+      "id": "tesco_01",
+      "from": "tracey",
+      "text": "hiya babes",
+      "delayMs": 0,
+      "nextBeatId": "tesco_02"
+    },
+    {
+      "id": "tesco_02",
+      "from": "tracey",
+      "text": "sorry not been in touch",
+      "delayMs": 500,
+      "nextBeatId": "tesco_03"
+    },
+    {
+      "id": "tesco_03",
+      "from": "tracey",
+      "text": "my phones in evidence",
+      "delayMs": 1500,
+      "replyOptions": [
+        { "id": "r1", "label": "you what?", "nextBeatId": "tesco_05" },
+        { "id": "r2", "label": "No way!", "nextBeatId": "tesco_05" },
+        { "id": "r3", "label": "what have you done?", "nextBeatId": "tesco_05" }
+      ]
+    },
+    {
+      "id": "tesco_05",
+      "from": "tracey",
+      "text": "i was putting 12 bottles of prosecco, 3 cheese boards and that cream dave uses for his thing through the self-scan",
+      "delayMs": 3000,
+      "nextBeatId": "tesco_06"
+    },
+    {
+      "id": "tesco_06",
+      "from": "tracey",
+      "text": "apparently i weren't meant to",
+      "delayMs": 1500,
+      "nextBeatId": "tesco_09"
+    },
+    {
+      "id": "tesco_09",
+      "from": "tracey",
+      "type": "voice-note",
+      "durationLabel": "0:12",
+      "transcript": "I scanned the self-scan and it didn't take the card at the end but I didn't know what I'd done and then this guard appeared and I panicked and just... I dunno what happened",
+      "delayMs": 2000,
+      "nextBeatId": "tesco_10"
+    },
+    {
+      "id": "tesco_10",
+      "from": "tracey",
+      "type": "voice-note",
+      "durationLabel": "0:11",
+      "transcript": "Right, jobsworth, five foot nothing, getting all up in my chest. Anyway I turned around quick and accidentally whacked him with my bag.",
+      "delayMs": 2500,
+      "nextBeatId": "tesco_11"
+    },
+    {
+      "id": "tesco_11",
+      "from": "tracey",
+      "type": "image",
+      "filename": "tesco-selfie-blurry.png",
+      "caption": "Tesco aisle selfie - blurry, finger in shot, wild-eyed expression",
+      "delayMs": 1000,
+      "nextBeatId": "tesco_13"
+    },
+    {
+      "id": "tesco_13",
+      "from": "tracey",
+      "text": "the bag was a hermes from the car boot",
+      "delayMs": 2000,
+      "nextBeatId": "tesco_14"
+    },
+    {
+      "id": "tesco_14",
+      "from": "tracey",
+      "text": "40 quid it was",
+      "delayMs": 500,
+      "nextBeatId": "tesco_15"
+    },
+    {
+      "id": "tesco_15",
+      "from": "tracey",
+      "text": "theres a bit of blood on it now",
+      "delayMs": 1500,
+      "nextBeatId": "tesco_16"
+    },
+    {
+      "id": "tesco_16",
+      "from": "tracey",
+      "type": "image",
+      "filename": "hermes-bag-bloodstain.png",
+      "caption": "Hermes bag with the suspicious stain",
+      "delayMs": 1000,
+      "replyOptions": [
+        { "id": "r4", "label": "WTF trace!", "nextBeatId": "tesco_18" },
+        { "id": "r5", "label": "only you", "nextBeatId": "tesco_18" },
+        { "id": "r6", "label": "you're joking?", "nextBeatId": "tesco_18" }
+      ]
+    },
+    {
+      "id": "tesco_18",
+      "from": "dave",
+      "text": "have you heard",
+      "delayMs": 0,
+      "nextBeatId": "tesco_19"
+    },
+    {
+      "id": "tesco_19",
+      "from": "dave",
+      "text": "mate",
+      "delayMs": 2000,
+      "nextBeatId": "tesco_21"
+    },
+    {
+      "id": "tesco_21",
+      "from": "dave",
+      "text": "the guard's claiming all sorts",
+      "delayMs": 2000,
+      "nextBeatId": "tesco_22"
+    },
+    {
+      "id": "tesco_22",
+      "from": "dave",
+      "text": "reckons you gave him ptsd or something",
+      "delayMs": 1500,
+      "nextBeatId": "tesco_24"
+    },
+    {
+      "id": "tesco_24",
+      "from": "tracey",
+      "text": "what? like an std?",
+      "delayMs": 3000,
+      "nextBeatId": "tesco_25"
+    },
+    {
+      "id": "tesco_25",
+      "from": "tracey",
+      "text": "we did not even have sex",
+      "delayMs": 2000,
+      "replyOptions": [
+        { "id": "r7", "label": "oh tracey", "nextBeatId": "tesco_28" },
+        { "id": "r8", "label": "mate...", "nextBeatId": "tesco_28" },
+        { "id": "r9", "label": "it's PTSD", "nextBeatId": "tesco_28" }
+      ]
+    },
+    {
+      "id": "tesco_28",
+      "from": "dave",
+      "text": "spoke to someone",
+      "delayMs": 3000,
+      "nextBeatId": "tesco_29"
+    },
+    {
+      "id": "tesco_29",
+      "from": "dave",
+      "text": "might need a solicitor tbh",
+      "delayMs": 2000,
+      "nextBeatId": "tesco_30"
+    },
+    {
+      "id": "tesco_30",
+      "from": "tracey",
+      "text": "DAVE",
+      "delayMs": 1000,
+      "nextBeatId": "tesco_31"
+    },
+    {
+      "id": "tesco_31",
+      "from": "tracey",
+      "text": "WHAT DO YOU MEAN SOLICITOR",
+      "delayMs": 500,
+      "nextBeatId": "tesco_33"
+    },
+    {
+      "id": "tesco_33",
+      "from": "tracey",
+      "text": "am i going to prison",
+      "delayMs": 2000,
+      "nextBeatId": "tesco_35"
+    },
+    {
+      "id": "tesco_35",
+      "from": "tracey",
+      "text": "lee answer me honestly",
+      "delayMs": 3500,
+      "nextBeatId": "tesco_36"
+    },
+    {
+      "id": "tesco_36",
+      "from": "tracey",
+      "text": "do security guards count as witnesses",
+      "delayMs": 2000,
+      "nextBeatId": "tesco_end"
+    },
+    {
+      "id": "tesco_end",
+      "from": "system",
+      "text": ""
+    }
+  ]
+}

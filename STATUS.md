@@ -1,11 +1,19 @@
 # Current Work Status - TUT!
 
-**Last Updated:** 2026-05-25 12:55 UTC+1
+**Last Updated:** 2026-05-27 21:15 UTC+1
 
 ## In Progress
 - None currently
 
 ## Completed This Session
+- Done: Created `tescoThing.json` from `docs/tut_s01e01day1script.md` and wired it as the active app scenario.
+- Done: Added active S01E01 media support for scenario beats:
+  - Voice-note beats render as play-button waveform bubbles with duration labels.
+  - Image beats render real assets from `app/assets/s01e01/`.
+  - Dave beats render in green with a `Dave` label above each Dave message run.
+- Done: Added S01E01 media assets under `app/assets/s01e01/`.
+- Done: Fixed Expo web stack overflow by removing the recursive `app-tabs.web.tsx` shim.
+- Done: Verified TypeScript with `npx tsc --noEmit`.
 - Done: Implemented Phase 1 guided reply pills (authored options only, no free typing).
 - Done: Converted `magicMike.json` to beat-based scenario flow with deterministic `replyOptions`.
 - Done: Removed chat keyboard path for Phase 1 (no `TextInput`, no iMessage input bar).
@@ -59,13 +67,14 @@
 - No persistence (messages disappear on app close).
 - Typing animation now uses React Native `Animated`, but needs real device testing before calling it done.
 - Message IDs still use Date.now() (should be UUID).
-- Media assets are intentionally parked (not active): `app/assets/audio/dave.mp3` and `app/assets/images/Dave.jpg`.
+- Active S01E01 images render in chat, but voice notes are visual-only bubbles for now; real audio playback/assets still need wiring.
+- Parked media assets remain available: `app/assets/audio/dave.mp3` and `app/assets/images/Dave.jpg`.
 - Parked asset references live in `app/src/lib/parkedMediaAssets.ts`.
 - Guided-reply state/timers are in-memory only; persistence and replay behavior still pending future phases.
 
 ## Git Info
 - Remote: `git@github.com:greenhill32/TUT.git`
-- Latest commit: `715d3c8` - Add keyboard UX todo
+- Latest commit: S01E01 Tesco media scenario push
 - Branch: `main`
 
 ## How to Avoid Conflicts
